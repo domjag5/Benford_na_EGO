@@ -1,8 +1,8 @@
 Na komputerze: 
-razem plikow 981141
+razem plikow 986799
 jednocyfrowych ( < 10 B )                       1.1%
 dwucyfrowych ( < 100 B )                        7.4%
-trzycyfrowych ( < 1000 B )                      23.7%
+trzycyfrowych ( < 1000 B )                      23.6%
 czterocyfrowych ( < 10000 B )                   38.6%
 pieciocyfrowych ( < 100 000 B )                 20.0%
 szesciocyfrowych i wiekszych ( >= 100 000 B )   9.2%
@@ -20,14 +20,14 @@ Zaczynajacych sie na:
 
 1-cyfr: 1.1  odchylenie: 1.0
 2-cyfr: 7.4  odchylenie: 2.6
-3-cyfr: 23.7  odchylenie: 4.3
+3-cyfr: 23.6  odchylenie: 4.3
 4-cyfr: 38.6  odchylenie: 4.9
 5-cyfr: 20.0  odchylenie: 4.0
 6-cyfr: 9.2  odchylenie: 2.9
 [0] 0.9  odchylenie: 0.9
-[1] 31.5  odchylenie: 4.6
+[1] 31.5  odchylenie: 4.7
 [2] 16.6  odchylenie: 3.7
-[3] 11.1  odchylenie: 3.1
+[3] 11.1  odchylenie: 3.2
 [4] 8.0  odchylenie: 2.7
 [5] 9.5  odchylenie: 2.9
 [6] 5.2  odchylenie: 2.2
