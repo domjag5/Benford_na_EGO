@@ -2,6 +2,8 @@ import pickle
 
 
 #
+
+#
 def sprawdzarka():
     srednia_ilosc_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\srednie_ilosci_rozmiarow.pickle", "rb"))
     odchylenie_ilosci_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\odchylenia_ilosci_rozmiarow.pickle", "rb"))
