@@ -4,8 +4,8 @@ from zbieracz_statystyk import kategoria_dlugosci_rozmiaru
 # tolerancje wynikające z różnych wyników na różnych komputerach
 tolerancja_sredniej_ilosci_jednocyfrowych = 0.3
 tolerancja_sredniej_ilosci_rozmiaru = 0.6
-tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.3
-
+tolerancja_sredniej_ilosci_zer = 0.3
+tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.4
 
 # Program ocenia pliki tekstowe od 001.txt do 029.txt
     # Oceny zaposuje do pliku csv
@@ -48,7 +48,13 @@ def sprawdzarka():
             normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[i] + tolerancja_sredniej_ilosci_rozmiaru
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(10):
+        for i in range(0,1):
+            odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
+            normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
+                                      i] + tolerancja_sredniej_ilosci_zer
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
+        for i in range(1,10):
             odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
             normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
                                       i] + tolerancja_sredniej_ilosci_pierwszej_cyfry
