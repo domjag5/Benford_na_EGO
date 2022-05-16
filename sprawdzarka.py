@@ -1,7 +1,10 @@
 import pickle
 
-
 #
+tolerancja_sredniej_ilosci_jednocyfrowych = 0.3
+tolerancja_sredniej_ilosci_rozmiaru = 0.6
+tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.3
+
 
 #
 def sprawdzarka():
@@ -43,14 +46,23 @@ def sprawdzarka():
             pierwsza_cyfra = int(str(rozmiar)[0])
             cyfry[pierwsza_cyfra] += 1
         # porownanie odchylenia od sredniej
-        for i in range(6):
+        for i in range(0, 1):
             odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
-            if odchylenie_proby > odchylenie_ilosci_rozmiaru_danej_dlugosci[i]:
-                ocena += (odchylenie_proby - odchylenie_ilosci_rozmiaru_danej_dlugosci[i])
+            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[
+                                      i] + tolerancja_sredniej_ilosci_jednocyfrowych
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
+        for i in range(1, 6):
+            odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
+            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[i] + tolerancja_sredniej_ilosci_rozmiaru
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
         for i in range(10):
             odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
-            if odchylenie_proby > odchylenie_ilosci_danej_pierwszej_cyfry[i]:
-                ocena += (odchylenie_proby - odchylenie_ilosci_danej_pierwszej_cyfry[i])
+            normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
+                                      i] + tolerancja_sredniej_ilosci_pierwszej_cyfry
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
 
         nazwa_na_ocene[nazwa_pliku] = ocena / 100
     #
