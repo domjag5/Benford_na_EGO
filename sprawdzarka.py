@@ -55,7 +55,7 @@ def sprawdzarka():
                 ocena += (odchylenie_proby - normalne_odchylenie)
 
         nazwa_na_ocene[nazwa_pliku] = ocena / 100
-    #
+    ##
     liczba_porzadkowa = 1
     for nazwa_pliku in dict(sorted(nazwa_na_ocene.items(), key=lambda pozycja: pozycja[1])):
         nazwa_na_liczbe_porzadkowa[nazwa_pliku] = liczba_porzadkowa
