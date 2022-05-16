@@ -4,20 +4,63 @@ from math import sqrt
 from statistics import mean
 
 
+# Program analizuje liste rozmiarow plikow
+# oraz 100'000 probek 100 rozmiarow, wybieranych losowo
+# Zlicza liczbe rozmiarow w 6 kategoriach dlugosci w bajtach
+# oraz liczbe rozmiarow zaczynajacych sie kazda cyfra
+# Oblicza srednia i odchylenie standardowe powyzszych wielkosci w losowych probach
+# Zapisuje podsumowanie statystyk do pliku tekstowego
+# Serializuje listy srednich i odchylen
 #
-def zbieracz_statystyk():
-    # funkcja obliczajaca odchylenie standardowe
-    def estymator_najwiekszej_wiarygodnosci(lista_wartosci):
-        srednia = mean(lista_wartosci)
-        suma = 0
-        for x in lista_wartosci:
-            suma += pow((float(x) - srednia), 2)
-        return sqrt(suma / len(lista_wartosci))
+# funkcja obliczajaca odchylenie standardowe
+def estymator_najwiekszej_wiarygodnosci(lista_wartosci):
+    srednia = mean(lista_wartosci)
+    suma = 0
+    for x in lista_wartosci:
+        suma += pow((float(x) - srednia), 2)
+    return sqrt(suma / len(lista_wartosci))
 
-    #
+
+# ustalenie liczby cyfr rozmiaru pliku
+def kategoria_dlugosci_rozmiaru(rozmiar):
+    if rozmiar < 10:
+        return 0
+    elif rozmiar < 100:
+        return 1
+    elif rozmiar < 1000:
+        return 2
+    elif rozmiar < 10000:
+        return 3
+    elif rozmiar < 100000:
+        return 4
+    else:
+        return 5
+
+
+def zapisz_statystyki_calego_komputera_do_pliku(pisacz_do_pliku, rozmiary, cyfry, razem_plikow):
+    pisacz_do_pliku.write("Na komputerze: \n")
+    pisacz_do_pliku.write("razem plikow " + str(razem_plikow) + "\n")
+    pisacz_do_pliku.write("jednocyfrowych ( < 10 B )                       " + str(
+        round((float(rozmiary[0]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("dwucyfrowych ( < 100 B )                        " + str(
+        round((float(rozmiary[1]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("trzycyfrowych ( < 1000 B )                      " + str(
+        round((float(rozmiary[2]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("czterocyfrowych ( < 10000 B )                   " + str(
+        round((float(rozmiary[3]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("pieciocyfrowych ( < 100 000 B )                 " + str(
+        round((float(rozmiary[4]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("szesciocyfrowych i wiekszych ( >= 100 000 B )   " + str(
+        round((float(rozmiary[5]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("Zaczynajacych sie na: \n")
+    for i in range(10):
+        pisacz_do_pliku.write(str(i) + ": " + str(round((float(cyfry[i]) / razem_plikow) * 100, 1)) + "%\n")
+    pisacz_do_pliku.write("\n")
+
+def zbieracz_statystyk():
+    # lista rozmiarow - wynik funkcji pobieracz_plikow()
     rozmiary_plikow = pickle.load(open("Obiekty\\rozmiary.pickle", "rb"))
     # STATYSTYKI PRZESZUKANIA CALEGO KOMPUTERA
-    # tworzenie list wynikow przeszukania calego komputera
     rozmiary = []
     for i in range(6):
         rozmiary.append(0)
@@ -25,54 +68,20 @@ def zbieracz_statystyk():
     for i in range(10):
         cyfry.append(0)
     for rozmiar in rozmiary_plikow:
-        # ustalenie ilosci cyfr rozmiaru pliku
-        if rozmiar < 10:
-            rozmiary[0] += 1
-        elif rozmiar < 100:
-            rozmiary[1] += 1
-        elif rozmiar < 1000:
-            rozmiary[2] += 1
-        elif rozmiar < 10000:
-            rozmiary[3] += 1
-        elif rozmiar < 100000:
-            rozmiary[4] += 1
-        else:
-            rozmiary[5] += 1
-        # ustalenie pierwszej cyfry rozmiaru pliku
+        rozmiary[kategoria_dlugosci_rozmiaru(rozmiar)]+=1
         pierwsza_cyfra = int(str(rozmiar)[0])
         cyfry[pierwsza_cyfra] += 1
-    # zapis statystyk przeszukania calego komputera do pilku
-    uwu = open("statystyki.txt", 'w')
-    razem_plikow = len(rozmiary_plikow)
-    uwu.write("Na komputerze: \n")
-    uwu.write("razem plikow " + str(razem_plikow) + "\n")
-    uwu.write("jednocyfrowych ( < 10 B )                       " + str(
-        round((float(rozmiary[0]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("dwucyfrowych ( < 100 B )                        " + str(
-        round((float(rozmiary[1]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("trzycyfrowych ( < 1000 B )                      " + str(
-        round((float(rozmiary[2]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("czterocyfrowych ( < 10000 B )                   " + str(
-        round((float(rozmiary[3]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("pieciocyfrowych ( < 100 000 B )                 " + str(
-        round((float(rozmiary[4]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("szesciocyfrowych i wiekszych ( >= 100 000 B )   " + str(
-        round((float(rozmiary[5]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("Zaczynajacych sie na: \n")
-    for i in range(10):
-        uwu.write(str(i) + ": " + str(round((float(cyfry[i]) / razem_plikow) * 100, 1)) + "%\n")
-    uwu.write("\n")
-    # STATYSTYKI 100000 LOSOWAN 100 LICZB
-    # tworzenie list wynikow wszystkich prob
+    uwu=open("statystyki.txt","w")
+    zapisz_statystyki_calego_komputera_do_pliku(uwu,rozmiary,cyfry,len(rozmiary_plikow))
+    # STATYSTYKI 100'000 LOSOWAN 100 LICZB
+    # listy wynikow wszystkich prob
     ilosci_rozmiaru_danej_dlugosci = []
     for i in range(6):
         ilosci_rozmiaru_danej_dlugosci.append([])
     ilosci_danej_pierwszej_cyfry = []
     for i in range(10):
         ilosci_danej_pierwszej_cyfry.append([])
-    # przeprowadzanie prob
-    for p in range(100000):
-        # tworzenie list wynikow proby
+    for proba in range(100000):
         rozmiary = []
         for i in range(6):
             rozmiary.append(0)
@@ -82,20 +91,7 @@ def zbieracz_statystyk():
         # nowy losowy zbior
         random.random()
         for rozmiar in random.sample(rozmiary_plikow, 100):
-            # ustalenie ilosci cyfr rozmiaru pliku
-            if rozmiar < 10:
-                rozmiary[0] += 1
-            elif rozmiar < 100:
-                rozmiary[1] += 1
-            elif rozmiar < 1000:
-                rozmiary[2] += 1
-            elif rozmiar < 10000:
-                rozmiary[3] += 1
-            elif rozmiar < 100000:
-                rozmiary[4] += 1
-            else:
-                rozmiary[5] += 1
-            # ustalenie pierwszej cyfry rozmiaru pliku
+            rozmiary[kategoria_dlugosci_rozmiaru(rozmiar)]+=1
             pierwsza_cyfra = int(str(rozmiar)[0])
             cyfry[pierwsza_cyfra] += 1
         # dodanie wyniku proby do list wszystkich wynikow
@@ -104,7 +100,7 @@ def zbieracz_statystyk():
         for k in range(10):
             ilosci_danej_pierwszej_cyfry[k].append(cyfry[k])
         # # zapis statystyk proby do pilku
-        # uwu.write("probka nr " + str(int(p+1)) + "\n")
+        # uwu.write("probka nr " + str(int(proba+1)) + "\n")
         # for i in range(6):
         #     uwu.write(str(i+1)+"-cyfr:            " + str(rozmiary[i]) + "\n")
         # for i in range(10):
@@ -128,7 +124,7 @@ def zbieracz_statystyk():
         uwu.write("[" + str(i) + "] " + str(round(srednia_ilosc_danej_pierwszej_cyfry[i], 1)) + "  ")
         uwu.write("odchylenie: " + str(round(odchylenie_ilosci_danej_pierwszej_cyfry[i], 1)) + "\n")
     uwu.close()
-    # zapis do plikow pickle
+    # zapis list srednich i odchylen do plikow pickle
     pickle.dump(srednia_ilosc_rozmiaru_danej_dlugosci, open("Obiekty\\srednie_ilosci_rozmiarow.pickle", "wb"))
     pickle.dump(odchylenie_ilosci_rozmiaru_danej_dlugosci, open("Obiekty\\odchylenia_ilosci_rozmiarow.pickle", "wb"))
     pickle.dump(srednia_ilosc_danej_pierwszej_cyfry, open("Obiekty\\srednie_ilosci_cyfr.pickle", "wb"))

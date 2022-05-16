@@ -1,7 +1,12 @@
 import pickle
 
-
 #
+from zbieracz_statystyk import kategoria_dlugosci_rozmiaru
+
+tolerancja_sredniej_ilosci_jednocyfrowych = 0.3
+tolerancja_sredniej_ilosci_rozmiaru = 0.6
+tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.3
+
 
 #
 def sprawdzarka():
@@ -13,12 +18,12 @@ def sprawdzarka():
     nazwa_na_ocene = {}
     nazwa_na_liczbe_porzadkowa = {}
     for numer_pliku in range(1001, 1030):
-        ocena = 0
+        # pobranie proby
         nazwa_pliku = str(numer_pliku)[1:] + ".txt"
         uwu = open("Benford\\" + nazwa_pliku)
         proba = uwu.readlines()
         uwu.close()
-        # tworzenie list wynikow proby
+        # sprawdzenie statystyk proby
         rozmiary = []
         for i in range(6):
             rozmiary.append(0)
@@ -26,31 +31,28 @@ def sprawdzarka():
         for i in range(10):
             cyfry.append(0)
         for rozmiar in proba:
-            rozmiar = int(rozmiar)
-            if rozmiar < 10:
-                rozmiary[0] += 1
-            elif rozmiar < 100:
-                rozmiary[1] += 1
-            elif rozmiar < 1000:
-                rozmiary[2] += 1
-            elif rozmiar < 10000:
-                rozmiary[3] += 1
-            elif rozmiar < 100000:
-                rozmiary[4] += 1
-            else:
-                rozmiary[5] += 1
-            # ustalenie pierwszej cyfry rozmiaru pliku
+            rozmiary[kategoria_dlugosci_rozmiaru(int(rozmiar))]+=1
             pierwsza_cyfra = int(str(rozmiar)[0])
             cyfry[pierwsza_cyfra] += 1
-        # porownanie odchylenia od sredniej
-        for i in range(6):
+        # porownanie odchylen od sredniej
+        ocena = 0
+        for i in range(0, 1):
             odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
-            if odchylenie_proby > odchylenie_ilosci_rozmiaru_danej_dlugosci[i]:
-                ocena += (odchylenie_proby - odchylenie_ilosci_rozmiaru_danej_dlugosci[i])
+            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[
+                                      i] + tolerancja_sredniej_ilosci_jednocyfrowych
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
+        for i in range(1, 6):
+            odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
+            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[i] + tolerancja_sredniej_ilosci_rozmiaru
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
         for i in range(10):
             odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
-            if odchylenie_proby > odchylenie_ilosci_danej_pierwszej_cyfry[i]:
-                ocena += (odchylenie_proby - odchylenie_ilosci_danej_pierwszej_cyfry[i])
+            normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
+                                      i] + tolerancja_sredniej_ilosci_pierwszej_cyfry
+            if odchylenie_proby > normalne_odchylenie:
+                ocena += (odchylenie_proby - normalne_odchylenie)
 
         nazwa_na_ocene[nazwa_pliku] = ocena / 100
     #
@@ -60,23 +62,17 @@ def sprawdzarka():
         liczba_porzadkowa += 1
     #
     with open("464871.csv", "w", encoding="utf-8") as uwu:
-        numer_linii_w_pliku = 1
+        # w pierwszym wierszu etykiety kolumn
+        uwu.write("nazwa,jak_bardzo_podejrzane,liczba porządkowa")
         for nazwa_pliku in nazwa_na_ocene:
-            liczba_porzadkowa = nazwa_na_liczbe_porzadkowa[nazwa_pliku]
+            # sprowadzenie oceny do przedzialu <0;1> i dokladnosci 2 miejsc dziesietnych
             znormalizowana_ocena = nazwa_na_ocene[nazwa_pliku]
-            if znormalizowana_ocena < 0:
-                znormalizowana_ocena = 0
-            elif znormalizowana_ocena > 1:
+            if znormalizowana_ocena > 1:
                 znormalizowana_ocena = 1
             else:
                 znormalizowana_ocena = round(znormalizowana_ocena, 2)
-            if numer_linii_w_pliku == 1:
-                uwu.write("nazwa,jak_bardzo_podejrzane,liczba porządkowa\n")
-            if numer_linii_w_pliku == len(nazwa_na_ocene):
-                uwu.write(nazwa_pliku + "," + str(znormalizowana_ocena) + "," + str(liczba_porzadkowa))
-            else:
-                uwu.write(nazwa_pliku + "," + str(znormalizowana_ocena) + "," + str(liczba_porzadkowa) + "\n")
-            numer_linii_w_pliku += 1
+            liczba_porzadkowa = nazwa_na_liczbe_porzadkowa[nazwa_pliku]
+            uwu.write("\n"+nazwa_pliku + "," + str(znormalizowana_ocena) + "," + str(liczba_porzadkowa))
 
 
 sprawdzarka()

@@ -1,36 +1,36 @@
 Na komputerze: 
-razem plikow 986799
-jednocyfrowych ( < 10 B )                       1.1%
-dwucyfrowych ( < 100 B )                        7.4%
-trzycyfrowych ( < 1000 B )                      23.6%
-czterocyfrowych ( < 10000 B )                   38.6%
-pieciocyfrowych ( < 100 000 B )                 20.0%
-szesciocyfrowych i wiekszych ( >= 100 000 B )   9.2%
+razem plikow 1182232
+jednocyfrowych ( < 10 B )                       1.0%
+dwucyfrowych ( < 100 B )                        6.4%
+trzycyfrowych ( < 1000 B )                      23.5%
+czterocyfrowych ( < 10000 B )                   38.0%
+pieciocyfrowych ( < 100 000 B )                 22.3%
+szesciocyfrowych i wiekszych ( >= 100 000 B )   8.7%
 Zaczynajacych sie na: 
-0: 0.9%
-1: 31.5%
-2: 16.6%
-3: 11.1%
-4: 8.0%
-5: 9.5%
-6: 5.2%
-7: 5.7%
-8: 5.9%
-9: 5.6%
+0: 0.8%
+1: 32.9%
+2: 17.0%
+3: 10.5%
+4: 8.2%
+5: 9.2%
+6: 5.1%
+7: 5.4%
+8: 5.6%
+9: 5.3%
 
-1-cyfr: 1.1  odchylenie: 1.0
-2-cyfr: 7.4  odchylenie: 2.6
-3-cyfr: 23.6  odchylenie: 4.3
-4-cyfr: 38.6  odchylenie: 4.9
-5-cyfr: 20.0  odchylenie: 4.0
-6-cyfr: 9.2  odchylenie: 2.9
-[0] 0.9  odchylenie: 0.9
-[1] 31.5  odchylenie: 4.7
-[2] 16.6  odchylenie: 3.7
-[3] 11.1  odchylenie: 3.2
-[4] 8.0  odchylenie: 2.7
-[5] 9.5  odchylenie: 2.9
-[6] 5.2  odchylenie: 2.2
-[7] 5.7  odchylenie: 2.3
-[8] 5.9  odchylenie: 2.4
-[9] 5.6  odchylenie: 2.3
+1-cyfr: 1.0  odchylenie: 1.0
+2-cyfr: 6.4  odchylenie: 2.5
+3-cyfr: 23.5  odchylenie: 4.2
+4-cyfr: 38.1  odchylenie: 4.8
+5-cyfr: 22.3  odchylenie: 4.2
+6-cyfr: 8.7  odchylenie: 2.8
+[0] 0.8  odchylenie: 0.9
+[1] 32.9  odchylenie: 4.7
+[2] 17.0  odchylenie: 3.7
+[3] 10.5  odchylenie: 3.1
+[4] 8.2  odchylenie: 2.8
+[5] 9.2  odchylenie: 2.9
+[6] 5.1  odchylenie: 2.2
+[7] 5.4  odchylenie: 2.2
+[8] 5.6  odchylenie: 2.3
+[9] 5.3  odchylenie: 2.2
