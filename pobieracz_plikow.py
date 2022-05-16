@@ -4,9 +4,13 @@ import pickle
 from glob import glob
 
 
-# Program znajduje wszystkie pliki na komputerze i sprawdza ich rozmiar w bajtach
+# Program znajduje wszystkie pliki na dysku C i sprawdza ich rozmiar w bajtach
 # Nastepnie serializuje liste rozmiarow
 def pobieracz_plikow():
+    # itertools.chain - sprawdza najpierw jedno, potem drugie
+    # glob.glob - sprawdza wszystkie pliki w folderze
+    # ** i recursive=True - wszystkie podfoldery
+    # .** i recursive true - to co powyżej dla ukrytych plików
     sciezki_do_plikow = [f for f in itertools.chain(glob(r'C:\**', recursive=True), glob(r'C:\**\.*', recursive=True))
                          if
                          os.path.isfile(f)]
