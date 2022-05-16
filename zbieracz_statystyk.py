@@ -38,6 +38,7 @@ def kategoria_dlugosci_rozmiaru(rozmiar):
 
 
 def zapisz_statystyki_calego_komputera_do_pliku(pisacz_do_pliku, rozmiary, cyfry, razem_plikow):
+    plikow_niepustych=razem_plikow-cyfry[0]
     pisacz_do_pliku.write("Na komputerze: \n")
     pisacz_do_pliku.write("razem plikow " + str(razem_plikow) + "\n")
     pisacz_do_pliku.write("jednocyfrowych ( < 10 B )                       " + str(
@@ -124,6 +125,8 @@ def zbieracz_statystyk():
         uwu.write("[" + str(i) + "] " + str(round(srednia_ilosc_danej_pierwszej_cyfry[i], 1)) + "  ")
         uwu.write("odchylenie: " + str(round(odchylenie_ilosci_danej_pierwszej_cyfry[i], 1)) + "\n")
     uwu.close()
+    # dla cyfr jednak czysty benford
+    srednia_ilosc_danej_pierwszej_cyfry[1]=31.1
     # zapis list srednich i odchylen do plikow pickle
     pickle.dump(srednia_ilosc_rozmiaru_danej_dlugosci, open("Obiekty\\srednie_ilosci_rozmiarow.pickle", "wb"))
     pickle.dump(odchylenie_ilosci_rozmiaru_danej_dlugosci, open("Obiekty\\odchylenia_ilosci_rozmiarow.pickle", "wb"))
