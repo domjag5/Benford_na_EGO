@@ -1,20 +1,21 @@
 import pickle
 
-#
 from zbieracz_statystyk import kategoria_dlugosci_rozmiaru
-
+# tolerancje wynikające z różnych wyników na różnych komputerach
 tolerancja_sredniej_ilosci_jednocyfrowych = 0.3
 tolerancja_sredniej_ilosci_rozmiaru = 0.6
 tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.3
 
 
-#
+# Program ocenia pliki tekstowe od 001.txt do 029.txt
+    # Oceny zaposuje do pliku csv
 def sprawdzarka():
+    # pobranie wynikow 
     srednia_ilosc_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\srednie_ilosci_rozmiarow.pickle", "rb"))
     odchylenie_ilosci_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\odchylenia_ilosci_rozmiarow.pickle", "rb"))
     srednia_ilosc_danej_pierwszej_cyfry = pickle.load(open("Obiekty\\srednie_ilosci_cyfr.pickle", "rb"))
     odchylenie_ilosci_danej_pierwszej_cyfry = pickle.load(open("Obiekty\\srednie_odchylenia_ilosci_cyfr.pickle", "rb"))
-    #
+    # slowniki porzadkujace dane do zapisu do pliku csv
     nazwa_na_ocene = {}
     nazwa_na_liczbe_porzadkowa = {}
     for numer_pliku in range(1001, 1030):
@@ -55,12 +56,12 @@ def sprawdzarka():
                 ocena += (odchylenie_proby - normalne_odchylenie)
 
         nazwa_na_ocene[nazwa_pliku] = ocena / 100
-    ##
+    # przypisanie plikom liczb od 1 dla najmniej do podejrzanego
     liczba_porzadkowa = 1
     for nazwa_pliku in dict(sorted(nazwa_na_ocene.items(), key=lambda pozycja: pozycja[1])):
         nazwa_na_liczbe_porzadkowa[nazwa_pliku] = liczba_porzadkowa
         liczba_porzadkowa += 1
-    #
+    # zapisanie wynikow do pliku csv
     with open("464871.csv", "w", encoding="utf-8") as uwu:
         # w pierwszym wierszu etykiety kolumn
         uwu.write("nazwa,jak_bardzo_podejrzane,liczba porządkowa")
