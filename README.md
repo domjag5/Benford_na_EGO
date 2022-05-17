@@ -11,3 +11,14 @@ Działanie:
 - przygotowanie pliku .csv z nazwami plików, ich oceną oraz liczbą porządkową.
 
 Tekst mojej odpowiedzi do zadania 1 z zajęć 9:
+Rozkład Benforda
+Najsampierw wypada sprawdzić, czy pierwsze cyfry rozmiarów plików spełniają rozkład Benforda. Aby usunąć zera, rozpatrzyłem oddzielnie pliki niepuste. Rozkład cyfr pośród nich jest podobny do rozkładu Benforda, choć oczywiście różni się w zależności od komputera. Dla pewności najlepiej byłoby przetestować wiele komputerów i uśrednić wyniki. Bazując na testach trzech maszyn, zdecydowałem się posłużyć tradycyjnym rozkładem Benforda, założywszy dodatkową tolerancję 0,4. Oznacza ona, że udział danej cyfry w zestawie może różnić się od udziału z rozkładu Benforda o dodatkowe 0,4 punkta procentowego, bez wzbudzania podejrzeń. Udział plików pustych w całkowitej liczbie plików ustawiłem na 1%, z dodatkową tolerancją 0,3. Rozkładów drugich i trzecich cyfr nie sprawdzałem, bo są zbyt podobne do równomiernego.
+
+Dodatkowe kryterium
+Dodatkowo postanowiłem rozpatrzyć długość rozmiaru w bajtach. Rozpiętość rozmiaru pliku jest duża, mało prawdopodobne, że wylosuje się zestaw z samymi plikami podobnej wielkości. Taki zestaw mógłby powstać przez przeszukanie części komputera lub wymyślanie rozmiarów przez osobę nie orientującą się w wielkościach plików. Sprawdziłem, ile na koputerze jest plików o rozmiarze jedno, dwu, trzy, cztero, pięciocyfrowym, oraz większych. Jako że te wielkości również różniły się w zależności od komputera, ustaliłem dodatkową tolerancję 0,3 dla rozmiarów jednocyfrowych i 0,6 dla pozostałych. Następnie sprawdziłem, o ile udział rozmiarów danej kategorii może się różnić od średniej, nie wzbudzając podejrzeń. Wylosowałem 100 tysięcy zestawów po 100 rozmiarów i policzyłem odchylenie standardowe od średniej w każdej kategorii. Posłużyłem się estymatorem największej wiarygodności.
+
+Ocena
+Początkowo każdemu zestawowi przyporzadkowywałem  ocenę 0. Jeżeli w którejś kategorii wartość bezwzględna różnicy między udziałem w zestawie a średnią była większa niż suma odchylenia i tolerancji, dodawałam do oceny zestawu tę nadwyżkę. Na koniec zaokrąglałem ocenę do dwóch miejsc dziesiętnych, a jeśli była większa niż 1, sprowadzałem do 1.
+
+Program, który napisałem do pomocy, dostępny jest na stronie https://github.com/domjag5/Benford_na_EGO.
+Z pliku 006.txt usunąłem nadmiarowy rozmiar 101.
