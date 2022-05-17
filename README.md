@@ -18,7 +18,7 @@ Najsampierw wypada sprawdzić, czy pierwsze cyfry rozmiarów plików spełniają
 
 Dodatkowe kryterium
 
-Dodatkowo postanowiłem rozpatrzyć długość rozmiaru w bajtach. Rozpiętość rozmiaru pliku jest duża, mało prawdopodobne, że wylosuje się zestaw z samymi plikami podobnej wielkości. Taki zestaw mógłby powstać przez przeszukanie części komputera lub wymyślanie rozmiarów przez osobę nie orientującą się w wielkościach plików. Sprawdziłem, ile na koputerze jest plików o rozmiarze jedno, dwu, trzy, cztero, pięciocyfrowym, oraz większych. Jako że te wielkości również różniły się w zależności od komputera, ustaliłem dodatkową tolerancję 0,4 dla rozmiarów jednocyfrowych i 2,0 dla pozostałych.
+Dodatkowo rozpatrywałem długość rozmiaru w bajtach. Rozpiętość rozmiaru pliku jest duża, mało prawdopodobne, że wylosuje się zestaw z samymi plikami podobnej wielkości. Taki zestaw mógłby powstać przez przeszukanie części komputera lub wymyślanie rozmiarów przez osobę nie orientującą się w wielkościach plików. Sprawdziłem, ile na koputerze jest plików o rozmiarze jedno, dwu, trzy, cztero, pięciocyfrowym, oraz większych. Jako że te wielkości również różniły się w zależności od komputera, ustaliłem dodatkową tolerancję 0,4 dla rozmiarów jednocyfrowych i 2,0 dla pozostałych.
 
 Ocena
 
