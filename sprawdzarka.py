@@ -3,10 +3,10 @@ import pickle
 from zbieracz_statystyk import kategoria_dlugosci_rozmiaru
 
 # tolerancje wynikające z różnych wyników na różnych komputerach
-tolerancja_udzialu_jednocyfrowych = 0.4
-tolerancja_udzialu_kategorii_rozmiaru = 2.0
-tolerancja_udzialu_plikow_pustych = 0.5
-tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = 2.0
+tolerancja_udzialu_kategorii_rozmiaru = [2.0 for _ in range(6)]
+tolerancja_udzialu_kategorii_rozmiaru[0] = 0.4
+tolerancja_udzialu_kategorii_pierwszej_cyfry = [2.0 for _ in range(10)]
+tolerancja_udzialu_kategorii_pierwszej_cyfry[0] = 0.5
 
 
 # Program ocenia pliki tekstowe od 001.txt do 029.txt
@@ -44,30 +44,21 @@ def sprawdzarka():
         liczba_plikow_niepustych_w_probie = 100 - cyfry[0]
         # porownanie odchylen od sredniej
         ocena = 0
-        for i in range(0, 1):
-            # print("dlugosc <10B",sredni_udzial_kategorii_rozmiaru[i],rozmiary[i],odchylenie_udzialu_kategorii_rozmiaru[i],tolerancja_udzialu_jednocyfrowych)
+        for i in range(6):
             odchylenie_proby = abs(sredni_udzial_kategorii_rozmiaru[i] - rozmiary[i])
-            normalne_odchylenie = odchylenie_udzialu_kategorii_rozmiaru[i] + tolerancja_udzialu_jednocyfrowych
+            normalne_odchylenie = odchylenie_udzialu_kategorii_rozmiaru[i] + tolerancja_udzialu_kategorii_rozmiaru[i]
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(1, 6):
-            # print("dlugosc",sredni_udzial_kategorii_rozmiaru[i],rozmiary[i],odchylenie_udzialu_kategorii_rozmiaru[i],tolerancja_udzialu_kategorii_rozmiaru)
-            odchylenie_proby = abs(sredni_udzial_kategorii_rozmiaru[i] - rozmiary[i])
-            normalne_odchylenie = odchylenie_udzialu_kategorii_rozmiaru[i] + tolerancja_udzialu_kategorii_rozmiaru
-            if odchylenie_proby > normalne_odchylenie:
-                ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(0, 1):
-            # print("puste",sredni_udzial_plikow_pustych,cyfry[i],odchylenie_udzialu_plikow_pustych,tolerancja_udzialu_plikow_pustych)
-            odchylenie_proby = abs(sredni_udzial_plikow_pustych - cyfry[i])
-            normalne_odchylenie = odchylenie_udzialu_plikow_pustych + tolerancja_udzialu_plikow_pustych
-            if odchylenie_proby > normalne_odchylenie:
-                ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(1, 10):
-            udzial_proby = (cyfry[i] / liczba_plikow_niepustych_w_probie) * 100
-            # print("cyfra",sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i],udzial_proby,odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i],tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych)
-            odchylenie_proby = abs(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] - udzial_proby)
-            normalne_odchylenie = odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[
-                                      i] + tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych
+        for i in range(10):
+            odchylenie_proby = None
+            normalne_odchylenie = None
+            if i == 0:
+                odchylenie_proby = abs(sredni_udzial_plikow_pustych - cyfry[i])
+                normalne_odchylenie = odchylenie_udzialu_plikow_pustych + tolerancja_udzialu_kategorii_pierwszej_cyfry[0]
+            else:
+                udzial_proby = (cyfry[i] / liczba_plikow_niepustych_w_probie) * 100
+                odchylenie_proby = abs(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] - udzial_proby)
+                normalne_odchylenie = odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] + tolerancja_udzialu_kategorii_pierwszej_cyfry[i]
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
         ocena = ocena / 100
