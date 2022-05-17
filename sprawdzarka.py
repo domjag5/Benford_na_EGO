@@ -1,20 +1,27 @@
 import pickle
 
 from zbieracz_statystyk import kategoria_dlugosci_rozmiaru
+
 # tolerancje wynikające z różnych wyników na różnych komputerach
-tolerancja_sredniej_ilosci_jednocyfrowych = 0.3
-tolerancja_sredniej_ilosci_rozmiaru = 0.6
-tolerancja_sredniej_ilosci_zer = 0.3
-tolerancja_sredniej_ilosci_pierwszej_cyfry = 0.4
+tolerancja_udzialu_jednocyfrowych = 0.4
+tolerancja_udzialu_kategorii_rozmiaru = 2.0
+tolerancja_udzialu_plikow_pustych = 0.5
+tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = 2.0
+
 
 # Program ocenia pliki tekstowe od 001.txt do 029.txt
-    # Oceny zaposuje do pliku csv
+# Oceny zapisuje do pliku csv
 def sprawdzarka():
-    # pobranie wynikow 
-    srednia_ilosc_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\srednie_ilosci_rozmiarow.pickle", "rb"))
-    odchylenie_ilosci_rozmiaru_danej_dlugosci = pickle.load(open("Obiekty\\odchylenia_ilosci_rozmiarow.pickle", "rb"))
-    srednia_ilosc_danej_pierwszej_cyfry = pickle.load(open("Obiekty\\srednie_ilosci_cyfr.pickle", "rb"))
-    odchylenie_ilosci_danej_pierwszej_cyfry = pickle.load(open("Obiekty\\srednie_odchylenia_ilosci_cyfr.pickle", "rb"))
+    # pobranie wynikow funkcji zbieracz_statystyk()
+    sredni_udzial_kategorii_rozmiaru = pickle.load(open("Obiekty\\sredni_udzial_kategorii_rozmiaru.pickle", "rb"))
+    odchylenie_udzialu_kategorii_rozmiaru = pickle.load(
+        open("Obiekty\\odchylenie_udzialu_kategorii_rozmiaru.pickle", "rb"))
+    sredni_udzial_plikow_pustych = pickle.load(open("Obiekty\\sredni_udzial_plikow_pustych.pickle", "rb"))
+    odchylenie_udzialu_plikow_pustych = pickle.load(open("Obiekty\\odchylenie_udzialu_plikow_pustych.pickle", "rb"))
+    sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = pickle.load(
+        open("Obiekty\\sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych.pickle", "rb"))
+    odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = pickle.load(
+        open("Obiekty\\odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych.pickle", "rb"))
     # slowniki porzadkujace dane do zapisu do pliku csv
     nazwa_na_ocene = {}
     nazwa_na_liczbe_porzadkowa = {}
@@ -22,46 +29,49 @@ def sprawdzarka():
         # pobranie proby
         nazwa_pliku = str(numer_pliku)[1:] + ".txt"
         uwu = open("Benford\\" + nazwa_pliku)
+        # readlines() nie wczytuje pustych linii z konca niektorych plikow
         proba = uwu.readlines()
         uwu.close()
         # sprawdzenie statystyk proby
-        rozmiary = []
-        for i in range(6):
-            rozmiary.append(0)
-        cyfry = []
+        rozmiary = [0 for _ in range(6)]
+        cyfry = [0 for _ in range(10)]
         for i in range(10):
             cyfry.append(0)
         for rozmiar in proba:
-            rozmiary[kategoria_dlugosci_rozmiaru(int(rozmiar))]+=1
+            rozmiary[kategoria_dlugosci_rozmiaru(int(rozmiar))] += 1
             pierwsza_cyfra = int(str(rozmiar)[0])
             cyfry[pierwsza_cyfra] += 1
+        liczba_plikow_niepustych_w_probie = 100 - cyfry[0]
         # porownanie odchylen od sredniej
         ocena = 0
         for i in range(0, 1):
-            odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
-            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[
-                                      i] + tolerancja_sredniej_ilosci_jednocyfrowych
+            # print("dlugosc <10B",sredni_udzial_kategorii_rozmiaru[i],rozmiary[i],odchylenie_udzialu_kategorii_rozmiaru[i],tolerancja_udzialu_jednocyfrowych)
+            odchylenie_proby = abs(sredni_udzial_kategorii_rozmiaru[i] - rozmiary[i])
+            normalne_odchylenie = odchylenie_udzialu_kategorii_rozmiaru[i] + tolerancja_udzialu_jednocyfrowych
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
         for i in range(1, 6):
-            odchylenie_proby = abs(srednia_ilosc_rozmiaru_danej_dlugosci[i] - rozmiary[i])
-            normalne_odchylenie = odchylenie_ilosci_rozmiaru_danej_dlugosci[i] + tolerancja_sredniej_ilosci_rozmiaru
+            # print("dlugosc",sredni_udzial_kategorii_rozmiaru[i],rozmiary[i],odchylenie_udzialu_kategorii_rozmiaru[i],tolerancja_udzialu_kategorii_rozmiaru)
+            odchylenie_proby = abs(sredni_udzial_kategorii_rozmiaru[i] - rozmiary[i])
+            normalne_odchylenie = odchylenie_udzialu_kategorii_rozmiaru[i] + tolerancja_udzialu_kategorii_rozmiaru
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(0,1):
-            odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
-            normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
-                                      i] + tolerancja_sredniej_ilosci_zer
+        for i in range(0, 1):
+            # print("puste",sredni_udzial_plikow_pustych,cyfry[i],odchylenie_udzialu_plikow_pustych,tolerancja_udzialu_plikow_pustych)
+            odchylenie_proby = abs(sredni_udzial_plikow_pustych - cyfry[i])
+            normalne_odchylenie = odchylenie_udzialu_plikow_pustych + tolerancja_udzialu_plikow_pustych
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-        for i in range(1,10):
-            odchylenie_proby = abs(srednia_ilosc_danej_pierwszej_cyfry[i] - cyfry[i])
-            normalne_odchylenie = odchylenie_ilosci_danej_pierwszej_cyfry[
-                                      i] + tolerancja_sredniej_ilosci_pierwszej_cyfry
+        for i in range(1, 10):
+            udzial_proby = (cyfry[i] / liczba_plikow_niepustych_w_probie) * 100
+            # print("cyfra",sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i],udzial_proby,odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i],tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych)
+            odchylenie_proby = abs(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] - udzial_proby)
+            normalne_odchylenie = odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[
+                                      i] + tolerancja_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-
-        nazwa_na_ocene[nazwa_pliku] = ocena / 100
+        ocena = ocena / 100
+        nazwa_na_ocene[nazwa_pliku] = ocena
     # przypisanie plikom liczb od 1 dla najmniej do podejrzanego
     liczba_porzadkowa = 1
     for nazwa_pliku in dict(sorted(nazwa_na_ocene.items(), key=lambda pozycja: pozycja[1])):
@@ -79,7 +89,6 @@ def sprawdzarka():
             else:
                 znormalizowana_ocena = round(znormalizowana_ocena, 2)
             liczba_porzadkowa = nazwa_na_liczbe_porzadkowa[nazwa_pliku]
-            uwu.write("\n"+nazwa_pliku + "," + str(znormalizowana_ocena) + "," + str(liczba_porzadkowa))
+            uwu.write("\n" + nazwa_pliku + "," + str(znormalizowana_ocena) + "," + str(liczba_porzadkowa))
 
-
-sprawdzarka()
+# sprawdzarka()
