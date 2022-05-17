@@ -22,7 +22,7 @@ Dodatkowo postanowiłem rozpatrzyć długość rozmiaru w bajtach. Rozpiętość
 
 Ocena
 
-Sprawdziłem, o ile udział rozmiarów danej kategorii może się różnić od średniej, nie wzbudzając podejrzeń. Wylosowałem 100 tysięcy zestawów po 100 rozmiarów i policzyłem odchylenie standardowe od średniej w każdej kategorii. Posłużyłem się estymatorem największej wiarygodności.
+Sprawdziłem, o ile udział rozmiarów danej kategorii może się różnić od średniej, nie wzbudzając podejrzeń. Wylosowałem 100 tysięcy zestawów po 100 rozmiarów i policzyłem odchylenie standardowe w każdej kategorii. Posłużyłem się estymatorem największej wiarygodności.
 Początkowo każdemu zestawowi przyporzadkowywałem ocenę 0. Jeżeli w którejś kategorii wartość bezwzględna różnicy między udziałem w zestawie a średnią była większa niż suma odchylenia i tolerancji, dodawałam do oceny tę nadwyżkę. Na koniec sprowadzałem ocenę do 1, jeśli była większa i zaokrąglałem do dwóch miejsc dziesiętnych.
 
 Program, który napisałem do pomocy, dostępny jest na stronie https://github.com/domjag5/Benford_na_EGO. Z pliku 006.txt usunąłem nadmiarowy rozmiar sto pierwszy.
