@@ -110,25 +110,25 @@ def zbieracz_statystyk():
     odchylenie_udzialu_plikow_pustych = None
     sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = [0.0 for _ in range(10)]
     odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych = [0.0 for _ in range(10)]
+    # kategorie rozmiaru
     for i in range(6):
         sredni_udzial_kategorii_rozmiaru[i] = mean(liczebnosci_kategorii_dlugosci[i])
         odchylenie_udzialu_kategorii_rozmiaru[i] = estymator_najwiekszej_wiarygodnosci(
             liczebnosci_kategorii_dlugosci[i])
         uwu.write(str(i + 1) + "-cyfr: " + str(round(sredni_udzial_kategorii_rozmiaru[i], 1)) + " %  ")
         uwu.write("odchylenie: " + str(round(odchylenie_udzialu_kategorii_rozmiaru[i], 1)) + "\n")
-    # dla zera
-    for i in range(0, 1):
-        sredni_udzial_plikow_pustych = mean(liczebnosci_kategorii_pierwszej_cyfry[0])
-        odchylenie_udzialu_plikow_pustych = estymator_najwiekszej_wiarygodnosci(
-            liczebnosci_kategorii_pierwszej_cyfry[0])
-        uwu.write("[pustych] " + str(round(sredni_udzial_plikow_pustych, 1)) + " %  ")
-        uwu.write("odchylenie: " + str(round(odchylenie_udzialu_plikow_pustych, 1)) + "\n")
+    # pliki puste
+    sredni_udzial_plikow_pustych = mean(liczebnosci_kategorii_pierwszej_cyfry[0])
+    odchylenie_udzialu_plikow_pustych = estymator_najwiekszej_wiarygodnosci(liczebnosci_kategorii_pierwszej_cyfry[0])
+    uwu.write("[pustych] " + str(round(sredni_udzial_plikow_pustych, 1)) + " %  ")
+    uwu.write("odchylenie: " + str(round(odchylenie_udzialu_plikow_pustych, 1)) + "\n")
+    # pierwsze cyfry
     uwu.write("Pośród plikow niepustych:\n")
     for i in range(1, 10):
-        sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] = mean(
-            udzialy_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i])
-        odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] = estymator_najwiekszej_wiarygodnosci(
-            udzialy_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i])
+        sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] = \
+            mean(udzialy_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i])
+        odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] = \
+            estymator_najwiekszej_wiarygodnosci(udzialy_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i])
         uwu.write("[" + str(i) + "] " + str(
             round(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i], 1)) + " %  ")
         uwu.write("odchylenie: " + str(
