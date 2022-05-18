@@ -41,8 +41,8 @@ def sprawdzarka():
             rozmiary[kategoria_dlugosci_rozmiaru(int(rozmiar))] += 1
             pierwsza_cyfra = int(str(rozmiar)[0])
             cyfry[pierwsza_cyfra] += 1
-        liczba_plikow_niepustych_w_probie = 100 - cyfry[0]
         # porownanie odchylen od sredniej
+        liczba_plikow_niepustych_w_probie = 100 - cyfry[0]
         ocena = 0
         for i in range(6):
             odchylenie_proby = abs(sredni_udzial_kategorii_rozmiaru[i] - rozmiary[i])
@@ -50,18 +50,19 @@ def sprawdzarka():
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
         for i in range(10):
-            odchylenie_proby = None
-            normalne_odchylenie = None
             if i == 0:
                 odchylenie_proby = abs(sredni_udzial_plikow_pustych - cyfry[i])
-                normalne_odchylenie = odchylenie_udzialu_plikow_pustych + tolerancja_udzialu_kategorii_pierwszej_cyfry[0]
+                normalne_odchylenie = \
+                    odchylenie_udzialu_plikow_pustych + tolerancja_udzialu_kategorii_pierwszej_cyfry[0]
             else:
                 udzial_proby = (cyfry[i] / liczba_plikow_niepustych_w_probie) * 100
-                odchylenie_proby = abs(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] - udzial_proby)
-                normalne_odchylenie = odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] + tolerancja_udzialu_kategorii_pierwszej_cyfry[i]
+                odchylenie_proby = \
+                    abs(sredni_udzial_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] - udzial_proby)
+                normalne_odchylenie = \
+                    odchylenie_udzialu_kategorii_pierwszej_cyfry_posrod_plikow_niepustych[i] + \
+                    tolerancja_udzialu_kategorii_pierwszej_cyfry[i]
             if odchylenie_proby > normalne_odchylenie:
                 ocena += (odchylenie_proby - normalne_odchylenie)
-        ocena = ocena / 100
         nazwa_na_ocene[nazwa_pliku] = ocena
     # przypisanie plikom liczb od 1 dla najmniej do podejrzanego
     liczba_porzadkowa = 1
@@ -74,7 +75,7 @@ def sprawdzarka():
         uwu.write("nazwa,jak_bardzo_podejrzane,liczba porządkowa")
         for nazwa_pliku in nazwa_na_ocene:
             # sprowadzenie oceny do przedzialu <0;1> i dokladnosci 2 miejsc dziesietnych
-            znormalizowana_ocena = nazwa_na_ocene[nazwa_pliku]
+            znormalizowana_ocena = nazwa_na_ocene[nazwa_pliku] / 100
             if znormalizowana_ocena > 1:
                 znormalizowana_ocena = 1
             else:
