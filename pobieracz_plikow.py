@@ -7,9 +7,9 @@ import string
 # funkcja znajdujaca litery wszystkich dyskow koputera z systemem windows
 def znajdz_litery_dyskow():
     dyski = []
-    # maska_bitowa - integer odpowiadajacy 26-cyfrowej liczbie binarnej,        00000010001000001000111100
+    # maska_bitowa - integer odpowiadajacy 26-cyfrowej liczbie binarnej         00000010001000001000111100
     # porownujemy go z literami dyskow w kolejnosci alfabetycznej od prawej     ZYXWVUTSRQPONMLKJIHGFEDCBA
-    # gdy nad litera jest 1, to na komputerze jest dysk o tej literze,          Dyski = [C, D, E, F, J, P, T]
+    # gdy nad litera jest 1, to na komputerze jest dysk o tej literze           Dyski = [C, D, E, F, J, P, T]
     maska_bitowa = ctypes.windll.kernel32.GetLogicalDrives()
     # zmienna pomocnicza bo bedziemy degenerowac maske
     pom = maska_bitowa
